@@ -7,63 +7,65 @@ This toolkit provides professional-grade tools for the complete data analysis pi
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
----
+Data Analysis Toolkit 🔍
+A modular Python framework designed for end-to-end data processing, including targeted web scraping, automated data cleaning, and comprehensive exploratory data analysis (EDA).
 
-## 🚀 Features
+This toolkit is built with a controller-logic architecture, allowing individual modules to run independently or as a unified pipeline via a master script.
 
-### Web Scraper
-- **Multi-Source Data Scraper**: Extract data from various web sources including Wikipedia and other structured sites  
-- **Fortune 500 Company Scraper**: Extract company revenue and financial data  
-- **Global Demographics Scraper**: Collect population and country statistics  
-- Robust error handling and comprehensive logging  
-- Configurable output formats (CSV, JSON)  
-- User-agent rotation and request throttling for reliable scraping  
+🏗️ System Architecture
+The toolkit is divided into three specialized engines, each validated through real-world data use cases. It follows an ETL (Extract, Transform, Load) pattern where data flows seamlessly from the web into a cleaned state, followed by statistical profiling.
 
-### Data Cleaner
-- **Advanced Data Cleaning Pipeline**: Handle diverse datasets including demographic, financial, and contact data  
-- **99.8% Data Retention Rate**: Proven efficient cleaning with minimal data loss  
-- Intelligent duplicate detection and removal  
-- Phone number formatting and validation  
-- Address parsing and standardization  
-- Missing value handling with multiple imputation strategies  
-- Data type optimization and memory usage reduction  
-- Business rule implementation and validation  
+1. Web Extraction Engine (webscraper.py)
 
-### EDA Analyzer
-- **Comprehensive Statistical Analysis**: Complete exploratory data analysis with professional reporting  
-- **Multi-Dimensional Analysis**: Handle datasets with 19+ columns and complex relationships  
-- Advanced correlation analysis with strong correlation detection (|r| > 0.7)  
-- Outlier detection using IQR method with detailed reporting  
-- Missing value analysis and visualization  
-- Distribution analysis with skewness and kurtosis calculations  
-- Professional statistical summaries and categorical analysis  
-- Memory-efficient processing for large datasets  
+Capability: Parses and extracts structured data from complex HTML environments using BeautifulSoup4.
 
----
+Applied Use Case: Configured for Fortune 500 Financial Data, extracting the largest US companies by revenue from Wikipedia and converting financial string notations into analysis-ready numeric formats.
 
-## 📊 Real Performance Metrics
+2. Data Engineering Pipeline (data_Cleaner.py)
 
-### Data Cleaning Performance
-```
-✅ Layoffs Dataset (2,361 records)
-- Duplicates removed: 5
-- Data retention rate: 99.8%
-- Processing time: < 1 second
-- Final dataset: 2,356 rows × 9 columns
-```
+Capability: An OOP-based ETL pipeline that implements Regex-driven standardization and business logic validation.
 
-### EDA Analysis Capabilities
-```
-✅ Demographics Dataset (234 countries)
-- Dataset size: 234 rows × 19 columns
-- Memory usage: 0.07 MB
-- Missing values handled: 15 across 3 columns
-- Strong correlations identified: 31 pairs
-- Outliers detected: Up to 35 per column
-- Processing time: < 2 seconds
-```
+Applied Use Case: Validated on Tech Layoffs & Contact Datasets, utilizing automated deduplication and phone/address parsing to achieve a 99.8% data retention rate.
 
----
+3. Automated EDA Suite (eda_analyzer.py)
+
+Capability: A statistical engine that generates high-fidelity reports and visualizations using Seaborn and Matplotlib.
+
+Analysis Suite: Performs automated outlier detection (IQR method), identifies strong correlations (∣r∣>0.7), and calculates distribution metrics (Skewness/Kurtosis).
+
+🚀 The Master Pipeline
+The project features a master_pipeline.py script that automates the entire lifecycle. It handles directory creation, manages data flow between modules, and generates a final executive report.
+
+Pipeline Workflow:
+
+Scrape: Extracts raw corporate data into the /data folder.
+
+Clean: Processes raw CSVs (e.g., Layoffs data), standardizes formats, and outputs "Cleaned" versions.
+
+Analyze: Consumes the cleaned data to produce statistical summaries and visual plots in the /reports folder.
+
+📁 Project Structure
+Bash
+Data_Analysis_Toolkit/
+├── master_pipeline.py       # Master Controller Script
+├── webscraper.py            # Extraction Module (Applied to Fortune 500)
+├── data_Cleaner.py          # ETL Module (Applied to Layoffs/Contact data)
+├── eda_analyzer.py          # EDA Module (Statistical Profiling)
+├── data/                    # Storage for Raw and Processed CSVs
+└── reports/                 # Automated PDF/Text analysis reports
+🛠️ Installation & Usage
+1. Requirements
+
+Ensure you have the following libraries installed:
+
+Bash
+pip install pandas requests beautifulsoup4 seaborn matplotlib numpy scipy
+2. Running the Full Pipeline
+
+To execute all modules at once and generate a final report:
+
+Bash
+python master_pipeline.py
 
 ## 📋 Requirements
 
