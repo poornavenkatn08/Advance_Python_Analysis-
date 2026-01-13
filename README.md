@@ -38,13 +38,9 @@ The project features a `master_pipeline.py` script that automates the entire dat
 2.  **Clean**: Processes raw CSVs (e.g., Tech Layoffs), standardizes formats via Regex, and outputs validated versions.
 3.  **Analyze**: Consumes the cleaned data to produce statistical summaries and visual plots in the `/reports` folder.
 
----
+--- 
 
-## 📁 Project Structure
-
-
-
-🛠️ Installation & Usage
+## 🛠️ Installation & Usage
 1. Requirements
 
 Install the necessary data science stack via terminal:
@@ -70,7 +66,7 @@ python data_Cleaner.py
 
 # To perform EDA on existing data
 python eda_analyzer.py
-📊 Sample Performance Metrics
+## 📊 Sample Performance Metrics
 Data Cleaning: Achieved a 99.8% retention rate on 2,300+ record datasets by implementing intelligent duplicate detection.
 
 EDA Speed: Processes comprehensive statistical profiling for multi-dimensional data in < 2 seconds.
