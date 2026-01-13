@@ -47,13 +47,14 @@ Install the necessary data science stack via terminal:
 
 Bash
 pip install pandas requests beautifulsoup4 seaborn matplotlib numpy scipy
-2. Running the Full Pipeline
+
+2. **Running the Full Pipeline**
 
 To execute the end-to-end workflow (Scrape → Clean → Analyze) automatically:
 
 Bash
 python master_pipeline.py
-3. Running Individual Modules
+3. **Running Individual Modules**
 
 Modules can also be run standalone for specific localized tasks:
 
@@ -67,16 +68,16 @@ python data_Cleaner.py
 # To perform EDA on existing data
 python eda_analyzer.py
 ## 📊 Sample Performance Metrics
-Data Cleaning: Achieved a 99.8% retention rate on 2,300+ record datasets by implementing intelligent duplicate detection.
+**Data Cleaning**: Achieved a 99.8% retention rate on 2,300+ record datasets by implementing intelligent duplicate detection.
 
-EDA Speed: Processes comprehensive statistical profiling for multi-dimensional data in < 2 seconds.
+**EDA Speed**: Processes comprehensive statistical profiling for multi-dimensional data in < 2 seconds.
 
-Accuracy: Utilizes Scipy-backed statistical calculations for high-precision skewness, kurtosis, and Pearson correlations.
+**Accuracy**: Utilizes Scipy-backed statistical calculations for high-precision skewness, kurtosis, and Pearson correlations.
 
-📜 License
+## 📜 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-📬 Contact
+## 📬 Contact
 Poorna Venkat Neelakantam 📧 pvneelakantam@gmail.com
 
 🔗 LinkedIn Profile
