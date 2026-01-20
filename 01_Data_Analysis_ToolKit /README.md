@@ -1,83 +1,168 @@
-# Data Analysis Toolkit 🔍
+# 🐍 Python Data Analysis Portfolio
 
-A modular Python framework designed for end-to-end data processing, including targeted web scraping, automated data cleaning, and comprehensive exploratory data analysis (EDA). 
-
-This toolkit is built with a **controller-logic architecture**, allowing individual modules to run independently for specific tasks or as a unified pipeline via a master script.
+A collection of Python-based data analysis projects demonstrating end-to-end analytics capabilities, from data wrangling and statistical analysis to machine learning and visualization.
 
 [![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://python.org)
+[![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## 🏗️ System Architecture
+## 🚀 Featured Projects
 
-The toolkit follows a professional **ETL (Extract, Transform, Load)** pattern. Data flows seamlessly from web-based sources into a standardized, cleaned state, followed by deep statistical profiling.
+### 1. [E-Commerce Customer Analytics & RFM Segmentation](./01-ecommerce-rfm-analysis/)
 
+**Focus:** Customer Segmentation, RFM Analysis, K-Means Clustering
 
+📊 **[View Interactive Dashboard](https://public.tableau.com/app/profile/poorna.venkat.neelakantam/viz/E-CommerceCustomerAnalyticsDashboard/Dashboard1)**
 
-### 1. Web Extraction Engine (`webscraper.py`)
-* **Capability**: Parses and extracts structured data from complex HTML environments using `BeautifulSoup4`.
-* **Applied Use Case**: Configured for **Fortune 500 Financial Data**, extracting the largest US companies by revenue from Wikipedia and converting financial string notations into analysis-ready numeric formats.
+* **Problem:** E-commerce company needed to segment 96,477 customers to optimize marketing spend and reduce churn.
+* **Solution:** Built RFM (Recency, Frequency, Monetary) scoring model and validated segments using K-Means clustering with Scikit-learn.
+* **Key Results:**
+  * Identified R$2.9M revenue opportunity from churned customers
+  * Segmented customers into 10 actionable groups (Champions, At-Risk, Lost, etc.)
+  * Achieved 0.485 silhouette score with optimal 3-cluster solution
+* **Tech:** Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
 
-### 2. Data Engineering Pipeline (`data_Cleaner.py`)
-* **Capability**: An OOP-based ETL pipeline that implements **Regex-driven standardization** and business logic validation.
-* **Applied Use Case**: Validated on **Tech Layoffs & Contact Datasets**, utilizing automated deduplication and phone/address parsing to achieve a **99.8% data retention rate**.
+**Sample Code - RFM Calculation:**
+```python
+# Calculate RFM metrics for 96,477 customers
+rfm = df_delivered.groupby('customer_id').agg({
+    'order_purchase_timestamp': lambda x: (snapshot_date - x.max()).days,  # Recency
+    'order_id': 'count',                                                    # Frequency
+    'payment_total': 'sum'                                                  # Monetary
+})
 
-### 3. Automated EDA Suite (`eda_analyzer.py`)
-* **Capability**: A statistical engine that generates high-fidelity reports and visualizations using `Seaborn` and `Matplotlib`.
-* **Analysis Suite**: Performs automated outlier detection (IQR method), identifies strong correlations (|r| > 0.7), and calculates distribution metrics (Skewness/Kurtosis).
+# Create quartile-based scores
+rfm['R_Quartile'] = pd.qcut(rfm['Recency'], 4, labels=['4','3','2','1'])
+rfm['F_Quartile'] = pd.qcut(rfm['Frequency'].rank(method='first'), 4, labels=['1','2','3','4'])
+rfm['M_Quartile'] = pd.qcut(rfm['Monetary'], 4, labels=['1','2','3','4'])
+
+# K-Means clustering validation
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(rfm[['Recency', 'Frequency', 'Monetary']])
+kmeans = KMeans(n_clusters=3, random_state=42)
+rfm['Cluster'] = kmeans.fit_predict(X_scaled)
+```
+
+**Notebooks:**
+| Notebook | Description |
+|----------|-------------|
+| `01_data_exploration.ipynb` | Data loading, cleaning, merging 5 datasets |
+| `02_rfm_analysis.ipynb` | RFM calculation & customer segmentation |
+| `03_customer_segmentation.ipynb` | K-Means clustering & validation |
 
 ---
 
-## 🚀 The Master Pipeline
+### 2. [Data Analysis Toolkit](./02-data-analysis-toolkit/)
 
-The project features a `master_pipeline.py` script that automates the entire data lifecycle. It features **OS-agnostic pathing** (using Python's `os` module), ensuring the code runs flawlessly on Windows, macOS, or Linux.
+**Focus:** Web Scraping, Data Cleaning (ETL), Exploratory Data Analysis
 
-### **Pipeline Workflow:**
-1.  **Scrape**: Extracts raw corporate data from Wikipedia into the `/data` folder.
-2.  **Clean**: Processes raw CSVs (e.g., Tech Layoffs), standardizes formats via Regex, and outputs validated versions.
-3.  **Analyze**: Consumes the cleaned data to produce statistical summaries and visual plots in the `/reports` folder.
+A modular Python framework designed for end-to-end data processing, including targeted web scraping, automated data cleaning, and comprehensive exploratory data analysis (EDA).
 
---- 
+Built with a **controller-logic architecture**, allowing individual modules to run independently or as a unified pipeline via a master script.
 
-## 🛠️ Installation & Usage
-1. Requirements
+#### 🏗️ System Architecture
 
-Install the necessary data science stack via terminal:
+The toolkit follows a professional **ETL (Extract, Transform, Load)** pattern:
 
-Bash
-pip install pandas requests beautifulsoup4 seaborn matplotlib numpy scipy
+| Module | Capability | Use Case |
+|--------|------------|----------|
+| `webscraper.py` | Parses HTML using BeautifulSoup4 | Fortune 500 Financial Data extraction |
+| `data_Cleaner.py` | OOP-based ETL with Regex standardization | Tech Layoffs dataset (99.8% retention) |
+| `eda_analyzer.py` | Statistical engine with Seaborn/Matplotlib | Automated outlier detection, correlations |
 
-2. **Running the Full Pipeline**
+#### 🚀 The Master Pipeline
 
-To execute the end-to-end workflow (Scrape → Clean → Analyze) automatically:
-
-Bash
+```bash
+# Run the full pipeline: Scrape → Clean → Analyze
 python master_pipeline.py
-3. **Running Individual Modules**
 
-Modules can also be run standalone for specific localized tasks:
+# Or run individual modules
+python webscraper.py      # Scrape Fortune 500 data
+python data_Cleaner.py    # Clean layoffs dataset
+python eda_analyzer.py    # Perform EDA
+```
 
-Bash
-# To scrape Fortune 500 data
-python webscraper.py
+#### 📊 Performance Metrics
+* **Data Cleaning:** 99.8% retention rate on 2,300+ records
+* **EDA Speed:** < 2 seconds for comprehensive statistical profiling
+* **Accuracy:** Scipy-backed calculations for skewness, kurtosis, correlations
 
-# To clean the layoffs dataset
-python data_Cleaner.py
+---
 
-# To perform EDA on existing data
-python eda_analyzer.py
-## 📊 Sample Performance Metrics
-**Data Cleaning**: Achieved a 99.8% retention rate on 2,300+ record datasets by implementing intelligent duplicate detection.
+## 📊 Project Summary
 
-**EDA Speed**: Processes comprehensive statistical profiling for multi-dimensional data in < 2 seconds.
+| Project | Dataset Size | Key Techniques | Business Impact |
+|---------|--------------|----------------|-----------------|
+| E-Commerce RFM Analysis | 100K+ orders | RFM, K-Means, Pandas | R$2.9M revenue opportunity |
+| Data Analysis Toolkit | 2,300+ records | ETL, Web Scraping, EDA | 99.8% data retention |
 
-**Accuracy**: Utilizes Scipy-backed statistical calculations for high-precision skewness, kurtosis, and Pearson correlations.
+---
+
+## 🛠️ Technical Toolkit
+
+| Category | Technologies |
+|----------|--------------|
+| **Data Manipulation** | Pandas, NumPy |
+| **Machine Learning** | Scikit-learn (K-Means, StandardScaler) |
+| **Visualization** | Matplotlib, Seaborn |
+| **Web Scraping** | BeautifulSoup4, Requests |
+| **Statistics** | SciPy (Skewness, Kurtosis, Pearson) |
+| **Development** | Jupyter Notebook, Git |
+
+---
+
+
+
+---
+
+## 🚀 Installation & Usage
+
+### Requirements
+```bash
+pip install pandas numpy scikit-learn matplotlib seaborn scipy beautifulsoup4 requests jupyter
+```
+
+### Running E-Commerce Analysis
+```bash
+cd 01-ecommerce-rfm-analysis
+jupyter notebook
+# Run notebooks in sequence: 01 → 02 → 03
+```
+
+### Running Data Toolkit Pipeline
+```bash
+cd 02-data-analysis-toolkit
+python master_pipeline.py
+```
+
+---
+
+## 🔗 Related Repositories
+
+| Repository | Description |
+|------------|-------------|
+| 📊 [Dashboard Portfolio](https://github.com/poornavenkatn08/dashboards-portfolio) | Tableau & Power BI visualizations |
+| 🗃️ [SQL Projects](https://github.com/poornavenkatn08/SQL-Projects) | MySQL analytics & data engineering |
+
+---
 
 ## 📜 License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 📬 Contact
-Poorna Venkat Neelakantam 📧 pvneelakantam@gmail.com
+---
 
-🔗 LinkedIn Profile
+## 📬 Contact
+
+**Poorna Venkat Neelakantam**
+
+📧 [pvneelakantam@gmail.com](mailto:pvneelakantam@gmail.com)  
+🔗 [LinkedIn](https://www.linkedin.com/in/pneelakantam/)  
+💻 [GitHub](https://github.com/poornavenkatn08)  
+📊 [Tableau Public](https://public.tableau.com/app/profile/poorna.venkat.neelakantam)
