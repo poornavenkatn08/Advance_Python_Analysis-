@@ -207,17 +207,26 @@ class FortuneCompanyScraper:
 
 def main():
     """Main function to demonstrate the scraper."""
-    scraper = FortuneCompanyScraper()
+    import os
     
-    # Scrape data and export to CSV
-    data = scraper.scrape_and_export("largest_us_companies_2024.csv")
+    # 1. Dynamic Path Setup
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(base_dir, 'data')
+    os.makedirs(data_dir, exist_ok=True)
+    
+    # 2. Define Output Path
+    output_path = os.path.join(data_dir, "fortune_500_data.csv")
+    
+    # 3. Run Scraper
+    print("🕷️ Starting Web Scraper...")
+    scraper = FortuneCompanyScraper()
+    data = scraper.scrape_and_export(output_path)
     
     if data is not None:
         scraper.display_summary()
-        print("\n✅ Scraping completed successfully!")
+        print(f"\n✅ Scraping completed! Data saved to: {output_path}")
     else:
-        print("\n❌ Scraping failed. Check logs for details.")
-
+        print("\n❌ Scraping failed.")
 
 if __name__ == "__main__":
     main()

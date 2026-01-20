@@ -475,23 +475,38 @@ class ComprehensiveEDA:
 
 def main():
     """Main function to demonstrate the EDA toolkit."""
-    # Initialize EDA analyzer
+    import os
+    
+    # 1. Dynamic Path Setup
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(base_dir, 'data')
+    reports_dir = os.path.join(base_dir, 'reports')
+    os.makedirs(reports_dir, exist_ok=True)
+    
+    # 2. Initialize EDA
     eda = ComprehensiveEDA(figsize=(12, 8))
     
-    # Example usage - replace with your data file
-    data_file = "data/countries-table.csv"  # Update this path
+    # 3. Define File Paths
+    cleaned_file = os.path.join(data_dir, 'layoffs_Cleaned.csv')
+    raw_file = os.path.join(data_dir, 'layoffs_Raw.csv')
+    output_report = os.path.join(reports_dir, 'eda_report.txt')
     
-    if eda.load_data(data_file):
-        # Run complete EDA
-        eda.run_complete_eda()
-        
-        # Generate and save comprehensive report
-        report = eda.generate_comprehensive_report("eda_report.txt")
-        print("\n📊 Analysis completed successfully!")
-        print("📄 Detailed report saved as 'eda_report.txt'")
+    # 4. Select Best Available Data (Cleaned > Raw)
+    target_file = cleaned_file if os.path.exists(cleaned_file) else raw_file
+    
+    if os.path.exists(target_file):
+        print(f"📊 Starting EDA on: {os.path.basename(target_file)}")
+        if eda.load_data(target_file):
+            # Run Analysis
+            eda.run_complete_eda()
+            
+            # Generate Report
+            eda.generate_comprehensive_report(output_report)
+            print(f"\n✅ Analysis complete! Report saved to: {output_report}")
     else:
-        print("❌ Failed to load data. Please check the file path.")
-
+        print(f"❌ Error: No data found to analyze.")
+        print(f"Checked: {cleaned_file}")
+        print("Please run the Data Cleaner first!")
 
 if __name__ == "__main__":
     main()

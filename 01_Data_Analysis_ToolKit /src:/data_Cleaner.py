@@ -387,24 +387,39 @@ class CustomerDataCleaner:
 
 def main():
     """Main function to demonstrate the data cleaning pipeline."""
-    # Example usage
-    cleaner = CustomerDataCleaner()
+    import os
     
-    # Replace with your actual file path
-    input_file = "/Users/poornavenkat/Documents/GitHub/SQL-Projects/01_tech_layoffs_analysis:/Data/Raw/layoffs_Raw.csv"
-    output_file = "d'/Users/poornavenkat/Documents/GitHub/SQL-Projects/01_tech_layoffs_analysis:/Data/Raw/layoffs_Cleaned.csv'"
+    # 1. Dynamic Path Setup
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(base_dir, 'data')
+    
+    # Ensure data directory exists
+    if not os.path.exists(data_dir):
+        print(f"❌ Error: 'data' directory not found at {data_dir}")
+        return
+
+    # 2. Define File Paths
+    input_file = os.path.join(data_dir, 'layoffs_Raw.csv')
+    output_file = os.path.join(data_dir, 'layoffs_Cleaned.csv')
+    
+    # 3. Check Input Existence
+    if not os.path.exists(input_file):
+        print(f"❌ Error: Input file not found: {input_file}")
+        print("Please place 'layoffs_Raw.csv' inside the 'data' folder.")
+        return
+
+    # 4. Run Cleaning Pipeline
+    cleaner = CustomerDataCleaner()
+    print(f"🧹 Starting cleaning process on: {input_file}")
     
     if cleaner.clean_all(input_file):
         cleaner.save_cleaned_data(output_file)
         print(cleaner.generate_cleaning_report())
-        print("\n✅ Data cleaning completed successfully!")
-        
-        # Display sample of cleaned data
-        print("\nSample of cleaned data:")
-        print(cleaner.df.head())
+        print(f"\n✅ Data cleaning completed! Saved to: {output_file}")
     else:
         print("\n❌ Data cleaning failed. Check logs for details.")
 
-
 if __name__ == "__main__":
     main()
+
+
