@@ -11,7 +11,7 @@ A collection of Python-based data analysis projects demonstrating end-to-end ana
 
 ## 🚀 Featured Projects
 
-### 1. [SaaS Customer Churn Prediction & Retention Analytics](./03-saas-churn-prediction/)
+### 1. [SaaS Customer Churn Prediction & Retention Analytics](./03_Saas_Churn_Prediction/)
 
 **Focus:** Churn Prediction, Classification Models, Feature Engineering, Business Analytics
 
