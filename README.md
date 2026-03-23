@@ -116,7 +116,7 @@ rfm['Cluster'] = kmeans.fit_predict(X_scaled)
 
 ---
 
-### 3. [Data Analysis Toolkit](./01_Data_Analysis_ToolKit/)
+### 3. [Data Analysis Toolkit](./01-Data-Analysis-ToolKit/)
 
 **Focus:** Web Scraping, Data Cleaning (ETL), Exploratory Data Analysis
 
