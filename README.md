@@ -116,8 +116,7 @@ rfm['Cluster'] = kmeans.fit_predict(X_scaled)
 
 ---
 
-### 3. [Data Analysis Toolkit](./01-Data-Analysis-ToolKit/)
-
+### 3. [Data Analysis Toolkit](./01-Data-Analysis-Toolkit/)
 **Focus:** Web Scraping, Data Cleaning (ETL), Exploratory Data Analysis
 
 A modular Python framework designed for end-to-end data processing, including targeted web scraping, automated data cleaning, and comprehensive exploratory data analysis (EDA).
