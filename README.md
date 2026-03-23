@@ -69,7 +69,7 @@ rf_model.fit(X_train_scaled, y_train)
 
 ---
 
-### 2. [E-Commerce Customer Analytics & RFM Segmentation](./01-ecommerce-rfm-analysis/)
+### 2. [E-Commerce Customer Analytics & RFM Segmentation](./02_Ecommerce-Customer-Analytics/)
 
 **Focus:** Customer Segmentation, RFM Analysis, K-Means Clustering
 
@@ -116,7 +116,7 @@ rfm['Cluster'] = kmeans.fit_predict(X_scaled)
 
 ---
 
-### 3. [Data Analysis Toolkit](./02-data-analysis-toolkit/)
+### 3. [Data Analysis Toolkit](./01_Data_Analysis_ToolKit/)
 
 **Focus:** Web Scraping, Data Cleaning (ETL), Exploratory Data Analysis
 
