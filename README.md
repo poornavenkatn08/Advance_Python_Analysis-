@@ -11,7 +11,65 @@ A collection of Python-based data analysis projects demonstrating end-to-end ana
 
 ## 🚀 Featured Projects
 
-### 1. [E-Commerce Customer Analytics & RFM Segmentation](./01-ecommerce-rfm-analysis/)
+### 1. [SaaS Customer Churn Prediction & Retention Analytics](./03-saas-churn-prediction/)
+
+**Focus:** Churn Prediction, Classification Models, Feature Engineering, Business Analytics
+
+📊 **[View Interactive Dashboard](https://public.tableau.com/app/profile/poorna.venkat.neelakantam/viz/SaaSCustomerChurnAnalyticsDashboard/Homepage)**
+
+* **Problem:** RavenStack, an AI SaaS startup, was experiencing 22% churn across 500 accounts, losing $1.2M in monthly recurring revenue before public launch.
+* **Solution:** Built end-to-end churn prediction system — engineered 10 behavioral features from 5 relational tables (33K+ records), trained 3 classification models, and generated ranked at-risk customer lists for proactive retention.
+* **Key Results:**
+  * Achieved **85.73% AUC-ROC** with Random Forest (92.31% Precision)
+  * Identified **$1.1M MRR at risk** from 123 active medium-risk accounts
+  * Discovered **error rate is #1 churn driver** — not support quality (contradicting initial assumptions)
+  * Found **DevTools Enterprise** churns at 45.5% vs 22% overall
+  * Event referrals churn **3x more** than partner referrals (34.5% vs 12.8%)
+* **Tech:** Pandas, NumPy, Scikit-learn, XGBoost, Matplotlib, Seaborn
+
+**Sample Code - Feature Engineering & Model Training:**
+```python
+# Engineer behavioral features from 5 raw tables
+master_df['error_rate'] = (
+    master_df['total_errors'] / master_df['total_usage_count'].replace(0, 1)
+).round(4)
+
+master_df['engagement_score'] = MinMaxScaler().fit_transform(
+    master_df[['distinct_features_used', 'total_usage_count', 'avg_usage_duration_secs']]
+).mean(axis=1).round(4)
+
+master_df['mrr_per_seat'] = (
+    master_df['latest_mrr'] / master_df['seats'].replace(0, 1)
+).round(2)
+
+# Train Random Forest with class imbalance handling
+from sklearn.ensemble import RandomForestClassifier
+
+rf_model = RandomForestClassifier(
+    n_estimators=200, max_depth=10,
+    class_weight='balanced',  # handles 22% vs 78% imbalance
+    random_state=42
+)
+rf_model.fit(X_train_scaled, y_train)
+# Result: AUC 85.73%, Precision 92.31%
+```
+
+**Model Comparison:**
+| Model | Accuracy | Precision | Recall | F1 Score | ROC AUC |
+|-------|----------|-----------|--------|----------|---------|
+| Logistic Regression | 66.67% | 35.71% | 58.82% | 44.44% | 64.91% |
+| **Random Forest** | **84.67%** | **92.31%** | **35.29%** | **51.06%** | **85.73%** |
+| XGBoost | 80.67% | 60.87% | 41.18% | 49.12% | 82.96% |
+
+**Notebooks:**
+| Notebook | Description |
+|----------|-------------|
+| `01_data_exploration.py` | Data loading, quality assessment, EDA, 11 visualizations |
+| `02_churn_prediction.py` | Feature engineering, 3 ML models, evaluation, at-risk scoring |
+
+---
+
+### 2. [E-Commerce Customer Analytics & RFM Segmentation](./01-ecommerce-rfm-analysis/)
 
 **Focus:** Customer Segmentation, RFM Analysis, K-Means Clustering
 
@@ -58,7 +116,7 @@ rfm['Cluster'] = kmeans.fit_predict(X_scaled)
 
 ---
 
-### 2. [Data Analysis Toolkit](./02-data-analysis-toolkit/)
+### 3. [Data Analysis Toolkit](./02-data-analysis-toolkit/)
 
 **Focus:** Web Scraping, Data Cleaning (ETL), Exploratory Data Analysis
 
@@ -99,6 +157,7 @@ python eda_analyzer.py    # Perform EDA
 
 | Project | Dataset Size | Key Techniques | Business Impact |
 |---------|--------------|----------------|-----------------|
+| SaaS Churn Prediction | 33K+ records (5 tables) | Random Forest, XGBoost, Feature Engineering | $1.1M MRR at risk identified, 85.73% AUC |
 | E-Commerce RFM Analysis | 100K+ orders | RFM, K-Means, Pandas | R$2.9M revenue opportunity |
 | Data Analysis Toolkit | 2,300+ records | ETL, Web Scraping, EDA | 99.8% data retention |
 
@@ -109,10 +168,12 @@ python eda_analyzer.py    # Perform EDA
 | Category | Technologies |
 |----------|--------------|
 | **Data Manipulation** | Pandas, NumPy |
-| **Machine Learning** | Scikit-learn (K-Means, StandardScaler) |
+| **Machine Learning** | Scikit-learn (Random Forest, Logistic Regression, K-Means, StandardScaler) |
+| **Gradient Boosting** | XGBoost (with class imbalance handling) |
 | **Visualization** | Matplotlib, Seaborn |
 | **Web Scraping** | BeautifulSoup4, Requests |
 | **Statistics** | SciPy (Skewness, Kurtosis, Pearson) |
+| **Model Evaluation** | ROC-AUC, Precision-Recall, Confusion Matrix, Cross-Validation |
 | **Development** | Jupyter Notebook, Git |
 
 ---
@@ -125,7 +186,14 @@ python eda_analyzer.py    # Perform EDA
 
 ### Requirements
 ```bash
-pip install pandas numpy scikit-learn matplotlib seaborn scipy beautifulsoup4 requests jupyter
+pip install pandas numpy scikit-learn xgboost matplotlib seaborn scipy beautifulsoup4 requests jupyter
+```
+
+### Running SaaS Churn Prediction
+```bash
+cd 03-saas-churn-prediction
+jupyter notebook
+# Run: 01_data_exploration.py → 02_churn_prediction.py
 ```
 
 ### Running E-Commerce Analysis
